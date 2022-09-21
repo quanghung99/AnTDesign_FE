@@ -25,10 +25,28 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React Redux App</title>
+
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!-- 
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+    
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0"
+      nonce="IcC4GhBa"
+    ></script>
     <div id="root"></div>
+    <div id="fb-root"></div>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

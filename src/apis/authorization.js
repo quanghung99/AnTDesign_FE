@@ -1,0 +1,5 @@
+const authorization = {
+    login: (data) => {
+        
+    }
+}
