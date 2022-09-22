@@ -1,30 +1,69 @@
-import React from 'react';
+// @ts-nocheck
+/* eslint-disable jsx-a11y/iframe-has-title */
+import React, { useEffect, useState } from 'react';
 import { BackTop, Breadcrumb, Layout, Menu } from 'antd';
-import Carouse from '../carouse/carouse';
-import Map from '../map/maps';
+import { HomeOutlined } from '@ant-design/icons';
+import FooterCommon from '../footer/footer';
 import ActionHeader from '../header/header';
 import './layout.scss';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import PageContent from './content';
 
-const MainLayout = () => {
-  const { Header, Content, Footer } = Layout;
+const MainLayout = ({ children }) => {
   const items = [
-    { label: 'Home', key: 'home' },
-    { label: 'About', key: 'about' },
-    { label: 'Service', key: 'service' },
-    { label: 'Project', key: 'project' },
-    { label: 'Contact', key: 'contact' },
+    { label: 'Home', key: 'home', path: '/home' },
+    { label: 'About', key: 'about', path: '/about' },
+    { label: 'Service', key: 'service', path: '/service' },
+    { label: 'Project', key: 'project', path: '/project' },
+    { label: 'Contact', key: 'contact', path: '/contact' },
   ];
+  const { Header, Content, Footer } = Layout;
+  const [currentRoute, setCurrentRoute] = useState('');
+  const history = useHistory();
+  const { pathname } = useLocation();
+  // const [selectedKey, setSelectedKey] = useState(
+  //   // @ts-ignore
+  //   items.find((_item) => pathname.startsWith(_item.path))
+  // );
+
+  useEffect(() => {
+    setCurrentRoute(pathname);
+  }, [pathname]);
+
+  const clickBreadCum = (item) => {
+    const clicked = items.find((_item) => _item.key === item.key);
+    // @ts-ignore
+    history.push(clicked?.path);
+  };
+
+  const onClickMenu = (item) => {
+    const clicked = items.find((_item) => _item.key === item.key);
+    // @ts-ignore
+    history.push(clicked?.path);
+    setCurrentRoute(clicked?.path);
+  };
+  console.log(currentRoute);
+  // useEffect(() => {
+  //   setSelectedKey(
+  //     // @ts-ignore
+  //     items.find((_item) => pathname.startsWith(_item.path))
+  //   );
+  // }, [pathname]);
   return (
     <Layout>
       <Header className="main-header">
         <div className="main-header-leftside">
           <span className="logo">Logo</span>
           <Menu
+            // selectedKeys={selectedKey}
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={['home']}
-            items={items}
-          />
+            onClick={onClickMenu}
+          >
+            {items.map((item) => (
+              <Menu.Item key={item.key}>{item.label}</Menu.Item>
+            ))}
+          </Menu>
         </div>
         <ActionHeader />
       </Header>
@@ -32,29 +71,30 @@ const MainLayout = () => {
         className="site-layout"
         style={{ padding: '0 50px', marginTop: 64 }}
       >
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
+        <Breadcrumb onClick={clickBreadCum} style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>
+            {currentRoute === '/home' ? (
+              <Link to="/home">
+                <HomeOutlined />
+              </Link>
+            ) : (
+              <>
+                <Link to={currentRoute}>
+                  <HomeOutlined />
+                  {currentRoute}
+                </Link>
+              </>
+            )}
+          </Breadcrumb.Item>
         </Breadcrumb>
         <div
           className="site-layout-background"
           style={{ padding: 24, minHeight: 380 }}
         >
-          <Carouse />
+          {children}
         </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        <iframe
-          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fantdesign68&tabs=timeline&width=340&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-          width="340"
-          height="300"
-          style={{ border: 'none', overflow: 'hidden' }}
-          scrolling="no"
-          frameBorder="0"
-          allowFullScreen={true}
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-        ></iframe>
-        <Map />
-      </Footer>
+      <FooterCommon />
       <BackTop />
     </Layout>
   );

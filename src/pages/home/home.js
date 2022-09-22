@@ -1,5 +1,6 @@
 import React from 'react';
+import Carouse from '../../components/carouse/carouse';
 const HomePage = () => {
-  return <>Home Page</>;
+  return <>home</>;
 };
 export default HomePage;

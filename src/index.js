@@ -7,7 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { I18nextProvider } from 'react-i18next';
 import { BrowserRouter } from 'react-router-dom';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css'
 
 const container = document.getElementById('root');
 // @ts-ignore
